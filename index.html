@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17181c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="زرت">
+<meta name="description" content="زرت ZRT V2.0 - مساعد ذكاء اصطناعي عربي">
+<title>زرت | ZRT V2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#121216;--bg2:#17181c;--card:#1e1f24;--card2:#26272e;--text:#f5f2ea;--muted:#9a9aa3;--border:rgba(255,255,255,.09);--gold:#e8c268;--gold2:#b88a2e;--gold-grad:linear-gradient(135deg,#f3d98b,#c99a2e);--green:#22c55e;--red:#ef4444}
+[data-theme="light"]{color-scheme:light;--bg:#f6f5f2;--bg2:#ffffff;--card:#ffffff;--card2:#f0efe9;--text:#1a1a1e;--muted:#6b6b72;--border:rgba(0,0,0,.08);--gold:#a87c1a;--gold2:#8a6410}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%}body{background:var(--bg);color:var(--text);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+button,input,textarea{font:inherit}button{cursor:pointer}
+.app{display:flex;flex-direction:column;height:100dvh;max-width:100%;position:relative}
+/* HEADER - واحد فقط */
+.header{display:flex;align-items:center;justify-content:space-between;gap:8px;height:56px;min-height:56px;padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(16px);z-index:20;position:relative}
+.h-left,.h-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:44px;height:44px;min-width:44px;border:0;border-radius:12px;background:var(--card);color:var(--text);display:grid;place-items:center;transition:transform .15s,background .15s}
+.icon-btn:active{transform:scale(.94)} .icon-btn.gold{background:var(--gold-grad);color:#1a1605}
+.brand{display:flex;align-items:center;gap:9px;min-width:0}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:var(--card);border:1px solid var(--border);display:grid;place-items:center;box-shadow:0 0 24px -6px rgba(232,194,104,.45);flex:0 0 38px}
+.brand-mark span{font-size:22px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700;line-height:1}
+.brand-name{font-weight:700;font-size:16px;line-height:1.1;white-space:nowrap}.brand-name b{color:var(--gold)}.brand-sub{font-size:11px;color:var(--muted)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block}.status-dot.off{background:#9a9aa3}
+.icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+/* CHAT */
+.chat-scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:18px 14px 12px;scroll-behavior:smooth}
+.container{max-width:720px;margin:0 auto;width:100%}
+.empty{text-align:center;padding-top:56px}.empty .bigstar{font-size:62px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(232,194,104,.25))}
+.empty h1{font-size:24px;margin:16px 0 6px}.empty p{color:var(--muted);font-size:14px;line-height:1.8;max-width:520px;margin:0 auto}
+.suggest{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:26px}.suggest button{padding:13px 14px;border:1px solid var(--border);border-radius:14px;background:var(--card);color:var(--muted);text-align:start;font-size:13px;line-height:1.7}.suggest button:active{transform:scale(.98)}
+.messages{display:flex;flex-direction:column;gap:22px}
+.msg-user{display:flex;flex-direction:column;align-items:flex-end;gap:8px}.bubble{max-width:86%;padding:10px 14px;border-radius:16px 16px 4px 16px;background:var(--card2);font-size:15px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg-ai{display:flex;gap:10px;min-width:0}.ai-mark{width:32px;height:32px;flex:0 0 32px;border:1px solid var(--border);border-radius:10px;background:var(--card);display:grid;place-items:center}.ai-mark span{font-size:16px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ai-content{flex:1;min-width:0;line-height:1.85;font-size:15px}.ai-content p{margin:0 0 10px}
+.attach-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.attach-img{width:96px;height:96px;object-fit:cover;border-radius:12px;border:1px solid var(--border);cursor:zoom-in}.file-chip{display:inline-flex;align-items:center;gap:7px;max-width:240px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:var(--card);font-size:12px;cursor:pointer}.file-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* BUILD TABLE */
+.build{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--card);margin:10px 0}.build-head{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);font-weight:700}.build-progress{height:6px;background:var(--card2)}.build-progress i{display:block;height:100%;background:var(--gold-grad);transition:width .5s}.build-row{display:grid;grid-template-columns:32px 1fr 56px;gap:8px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border)}.build-row:last-child{border-bottom:0}.build-num{color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:12px}.build-status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;justify-content:flex-end}.dot-ok{width:24px;height:24px;border-radius:50%;background:var(--green);color:white;display:grid;place-items:center;font-size:13px;flex:0 0 24px}.spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}.build-done{padding:12px 14px;background:rgba(34,197,94,.1);display:flex;gap:8px;align-items:center;font-weight:700}@keyframes spin{to{transform:rotate(360deg)}}.mini-preview{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:10px 14px}.mini-preview .bar{display:flex;gap:6px;padding:8px 10px;background:var(--card2)}.mini-preview .bar i{width:10px;height:10px;border-radius:50%;display:block}.mini-body{padding:16px;text-align:center}.mini-body h3{margin:0}.mini-body p{color:var(--muted);font-size:13px}.mini-body button{margin-top:10px}
+/* CODE */
+.code-block{border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:10px 0;background:#0f1013}.code-head{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#1a1b1f}.code-head span{font-size:12px;color:#ddd}.code-actions{display:flex;gap:6px}.code-actions button{font-size:12px;padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#26272e;color:#fff}.code-block pre{margin:0;padding:12px;overflow-x:auto;color:#e8e8e8;font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.7;white-space:pre-wrap}
+/* SCROLL DOWN */
+.scroll-down{position:absolute;left:50%;transform:translateX(-50%);bottom:92px;z-index:5;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:7px 12px;font-size:12px;display:none;align-items:center;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}.scroll-down.show{display:flex}
+/* COMPOSER - مستطيل نحيف مو عريض */
+.composer-wrap{padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--border);z-index:10}
+.composer{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px;min-height:54px;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+.composer textarea{flex:1;border:0;outline:0;background:transparent;color:var(--text);resize:none;height:38px;max-height:120px;padding:9px 6px;font-size:16px;line-height:1.5}
+.composer .cbtn{width:44px;height:44px;min-width:44px;border-radius:10px;border:0;display:grid;place-items:center;background:var(--card2);color:var(--text)}.composer .cbtn.send{background:var(--gold-grad);color:#1a1605}.composer .cbtn:disabled{opacity:.45}
+.composer-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:6px}
+/* SHEETS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}.overlay.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--bg2);border-radius:28px 28px 0 0;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);max-height:88dvh;display:flex;flex-direction:column;overflow:hidden;padding-bottom:env(safe-area-inset-bottom)}.sheet.show{transform:translateY(0)}.sheet.short{max-height:68dvh}.handle{width:36px;height:5px;border-radius:999px;background:var(--border);margin:10px auto 6px}
+.sheet-head{padding:6px 16px 12px;display:flex;align-items:center;justify-content:space-between}.sheet-head h2{margin:0;font-size:18px}
+.glass-bar{margin:0 14px 12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.12);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:space-between;font-weight:700;box-shadow:0 8px 30px rgba(0,0,0,.15)}[data-theme="light"] .glass-bar{background:rgba(255,255,255,.65);border-color:rgba(255,255,255,.8)}
+.sheet-body{overflow-y:auto;padding:0 16px 18px;-webkit-overflow-scrolling:touch}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}.setting-row:last-child{border-bottom:0}.setting-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+/* iOS Toggle */
+.toggle{width:52px;height:32px;min-width:52px;border-radius:999px;background:#3a3a3f;position:relative;transition:background .2s;border:0;padding:0}.toggle i{position:absolute;top:2px;right:2px;width:28px;height:28px;border-radius:50%;background:white;transition:transform .2s;box-shadow:0 2px 6px rgba(0,0,0,.25)}[dir="rtl"] .toggle i{right:auto;left:2px}.toggle.on{background:#34c759}.toggle.on i{transform:translateX(-20px)}[dir="rtl"] .toggle.on i{transform:translateX(20px)}
+.seg{display:flex;background:var(--card2);border-radius:12px;padding:3px;gap:3px}.seg button{flex:1;padding:9px 6px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-size:13px}.seg button.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.version{text-align:center;color:var(--muted);font-size:12px;padding:14px 0 4px}
+/* PLUS SHEET CARDS */
+.plus-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0}@media(max-width:520px){.plus-grid{grid-template-columns:1fr}.suggest{grid-template-columns:1fr}}
+.plus-card{border:1px solid var(--border);border-radius:16px;background:var(--card);padding:14px;text-align:start}.plus-card h3{margin:8px 0 4px;font-size:14px}.plus-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+.upload-box{border:1.5px dashed var(--border);border-radius:16px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.upload-btn{border:0;border-radius:12px;background:var(--card);padding:12px;display:flex;flex-direction:column;gap:6px;align-items:center;font-size:13px;color:var(--text)}.upload-btn small{color:var(--muted);font-size:11px}
+.file-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}.file-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--card)}.file-item img{width:48px;height:48px;object-fit:cover;border-radius:8px}.file-item .meta{flex:1;min-width:0}.file-item .meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}.file-item .meta span{font-size:11px;color:var(--muted)}
+.btn-primary{width:100%;padding:13px;border:0;border-radius:12px;background:var(--gold-grad);color:#1a1605;font-weight:700;font-size:15px;margin-top:12px}.btn-ghost{width:100%;padding:11px;border:1px solid var(--border);border-radius:12px;background:transparent;color:var(--text);margin-top:8px}
+.progress{height:6px;background:var(--card2);border-radius:999px;overflow:hidden;margin-top:8px}.progress i{display:block;height:100%;background:var(--gold-grad);width:0%;transition:width .2s}
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;bottom:0;right:0;width:86%;max-width:340px;background:var(--bg2);z-index:60;transform:translateX(105%);transition:transform .35s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;border-left:1px solid var(--border);padding-top:env(safe-area-inset-top)}[dir="rtl"] .sidebar{right:0}.sidebar.show{transform:translateX(0)}.sidebar-head{padding:14px;display:flex;justify-content:space-between;align-items:center}.sidebar-search{margin:0 14px 10px}.sidebar-search input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);outline:0}
+.conv-list{flex:1;overflow-y:auto;padding:0 10px}.conv-item{display:flex;align-items:center;gap:8px;padding:11px 10px;border-radius:12px}.conv-item.active{background:var(--card2)}.conv-item .t{flex:1;min-width:0}.conv-item .t b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600}.conv-item .t span{font-size:11px;color:var(--muted)}
+.dots-menu{position:relative}.dots-panel{position:absolute;top:100%;left:0;z-index:70;background:var(--card);border:1px solid var(--border);border-radius:12px;min-width:140px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.3);display:none}.dots-panel.show{display:block}.dots-panel button{display:block;width:100%;text-align:start;padding:11px 12px;border:0;background:transparent;color:var(--text);font-size:13px}.dots-panel button.danger{color:var(--red)}
+.custom-box{margin:12px;border:1px solid var(--border);border-radius:16px;padding:12px;background:var(--card)}.custom-box label{font-size:12px;color:var(--muted)}.custom-box input,.custom-box select{width:100%;margin:6px 0 10px;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text)}
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(20px);background:#222;color:white;padding:10px 14px;border-radius:999px;font-size:13px;z-index:80;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(min-width:768px){.composer{max-width:720px}.chat-scroll{padding:24px 18px 14px}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="header">
+    <div class="h-right">
+      <button class="icon-btn" id="menuBtn" aria-label="القائمة"><svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
+      <div class="brand"><div class="brand-mark"><span>✦</span></div><div><div class="brand-name">زرت | <b>ZRT</b></div><div class="brand-sub">مساعد ذكاء اصطناعي</div></div></div>
+    </div>
+    <div class="h-left">
+      <span class="status-dot" id="netDot" title="متصل"></span>
+      <button class="icon-btn" id="newChatBtn" aria-label="محادثة جديدة"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="icon-btn" id="settingsBtn" aria-label="الإعدادات"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 1-.1 1.2l2 1.6-2 3.4-2.4-1a7 7 0 0 1-2 1.2L14 21h-4l-.5-2.6a7 7 0 0 1-2-1.2l-2.4 1-2-3.4 2-1.6A7 7 0 0 1 5 12a7 7 0 0 1 .1-1.2l-2-1.6 2-3.4 2.4 1a7 7 0 0 1 2-1.2L10 3h4l.5 2.6a7 7 0 0 1 2 1.2l2.4-1 2 3.4-2 1.6c.07.4.1.8.1 1.2z"/></svg></button>
+    </div>
+  </header>
+
+  <div class="chat-scroll" id="chatScroll">
+    <div class="container">
+      <div class="empty" id="emptyState"><div class="bigstar">✦</div><h1>أهلاً بك في زرت V2.0</h1><p>ارفع ملفاتك الحقيقية من جهازك، وابنِ مواقع وشرائح وملفات، وكل شيء محفوظ في جهازك.</p>
+        <div class="suggest">
+          <button data-suggest="ابنِ لي موقع إلكتروني لمتجر قهوة">ابنِ لي موقع إلكتروني لمتجر قهوة</button>
+          <button data-suggest="سوي لي شرائح عرض عن مشروعي">سوي لي شرائح عرض عن مشروعي</button>
+          <button data-suggest="اشرح لي هذا الملف">اشرح لي هذا الملف - ارفع ملف من زر +</button>
+          <button data-suggest="اكتب لي كود صفحة هبوط">اكتب لي كود صفحة هبوط</button>
+        </div>
+      </div>
+      <div class="messages" id="messages"></div>
+    </div>
+  </div>
+
+  <button class="scroll-down" id="scrollDownBtn"><svg class="icon" style="width:14px;height:14px" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg> النزول للأسفل</button>
+
+  <div class="composer-wrap">
+    <div class="composer">
+      <button class="cbtn" id="plusBtn" aria-label="إضافة"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <textarea id="input" rows="1" placeholder="اكتب رسالتك هنا..."></textarea>
+      <button class="cbtn" id="attachBtn" aria-label="إرفاق ملف"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15l-9-9-9 9"/><path d="M15 8l-6 6M9 8l6 6"/></svg></button>
+      <button class="cbtn send" id="sendBtn" aria-label="إرسال"><svg class="icon" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+    </div>
+    <div class="composer-hint">زرت قد يخطئ أحياناً. راجع النتائج المهمة قبل اعتمادها. • V2.0 • index.html</div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-head"><b>المحادثات</b><button class="icon-btn" id="closeSidebar" style="width:36px;height:36px"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <button class="btn-primary" id="newChatSidebar" style="margin:0 14px 10px">+ محادثة جديدة</button>
+  <div class="sidebar-search"><input id="searchConv" placeholder="ابحث في المحادثات..."></div>
+  <div class="conv-list" id="convList"></div>
+  <div class="custom-box">
+    <b style="font-size:14px">تخصيص الذكاء الاصطناعي</b>
+    <label>اسم المساعد</label><input id="aiName" value="زرت">
+    <label>أسلوب الرد</label><select id="aiStyle"><option>مختصر</option><option>مفصل</option><option>إبداعي</option></select>
+    <label>لغة الرد</label><select id="aiLang"><option>العربية</option><option>English</option></select>
+    <button class="btn-primary" id="saveAi">حفظ التخصيص</button>
+  </div>
+  <div class="version">إصدار التطبيق V2.0</div>
+</aside>
+
+<!-- SETTINGS SHEET -->
+<div class="overlay" id="settingsOverlay"></div>
+<div class="sheet short" id="settingsSheet">
+  <div class="handle"></div>
+  <div class="sheet-head"><h2>الإعدادات</h2><button class="icon-btn" id="closeSettings" style="width:36px;height:36px"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="glass-bar"><span>الإعدادات • زرت V2.0</span><span style="font-size:20px;background:linear-gradient(135deg,#f3d98b,#c99a2e);-webkit-background-clip:text;background-clip:text;color:transparent">✦</span></div>
+  <div class="sheet-body">
+    <div class="setting-row"><div><b>الوضع الفاتح</b><small>خلفية فاتحة بأسلوب آيفون</small></div><button class="toggle" id="themeToggle"><i></i></button></div>
+    <div class="setting-row"><div><b>التأثير الزجاجي</b><small>شفافية و Blur في الأشرطة</small></div><button class="toggle on" id="glassToggle"><i></i></button></div>
+    <div class="setting-row"><div><b>حفظ المحادثات</b><small>حفظ تلقائي في localStorage</small></div><button class="toggle on" id="saveToggle"><i></i></button></div>
+    <div class="setting-row"><div><b>البث المباشر للرد</b><small>يظهر الرد كلمة كلمة</small></div><button class="toggle on" id="streamToggle"><i></i></button></div>
+    <div class="setting-row"><div><b>أصوات التنبيه</b><small>تنبيه عند اكتمال البناء</small></div><button class="toggle" id="soundToggle"><i></i></button></div>
+    <div style="padding:14px 0 6px"><b>حجم الخط</b><div class="seg" style="margin-top:8px"><button data-font="small">صغير</button><button data-font="medium" class="active">متوسط</button><button data-font="large">كبير</button></div></div>
+    <div style="padding:12px 0"><b>التخزين</b><div style="font-size:13px;color:var(--muted);margin-top:6px" id="storageInfo">جاري حساب التخزين...</div>
+      <button class="btn-ghost" id="exportBtn">تصدير المحادثات (JSON)</button>
+      <button class="btn-ghost" id="clearFilesBtn">مسح كل الملفات المحفوظة</button>
+      <button class="btn-ghost" id="installBtn">تثبيت التطبيق (PWA)</button>
+    </div>
+    <div class="version">إصدار التطبيق V2.0 • ملف index.html • يعمل بدون سيرفر</div>
+  </div>
+</div>
+
+<!-- PLUS SHEET -->
+<div class="overlay" id="plusOverlay"></div>
+<div class="sheet" id="plusSheet">
+  <div class="handle"></div>
+  <div class="sheet-head"><h2>ماذا تريد أن نبني؟</h2><button class="icon-btn" id="closePlus" style="width:36px;height:36px"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="sheet-body">
+    <div class="upload-box">
+      <button class="upload-btn" id="uploadImageBtn"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5-9 9"/></svg>رفع صورة<small>JPG • PNG • WebP</small></button>
+      <button class="upload-btn" id="uploadFileBtn"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>رفع ملف<small>PDF • TXT • DOCX • CSV</small></button>
+      <button class="upload-btn" id="cameraBtn"><svg class="icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>التقط صورة<small>بالكاميرا</small></button>
+      <button class="upload-btn" id="clearAttachBtn"><svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>مسح المرفقات<small>حذف الكل</small></button>
+    </div>
+    <div class="progress" id="uploadProgressWrap" style="display:none"><i id="uploadProgress"></i></div>
+    <div class="file-list" id="pendingFiles"></div>
+    <textarea id="plusMessage" placeholder="اكتب رسالة مع الملفات (اختياري)..." style="width:100%;margin-top:12px;padding:11px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);resize:none" rows="2"></textarea>
+    <button class="btn-primary" id="sendWithFilesBtn">إرسال مع الملفات</button>
+
+    <div style="margin-top:18px"><b>أو ابنِ شيئاً جديداً</b></div>
+    <div class="plus-grid">
+      <button class="plus-card" data-build="website"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21v-6"/></svg><h3>إنشاء موقع إلكتروني</h3><p>صفحة كاملة بتصميم احترافي</p></button>
+      <button class="plus-card" data-build="files"><svg class="icon" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><h3>إنشاء ملفات</h3><p>أكواد وملفات جاهزة للتحميل</p></button>
+      <button class="plus-card" data-build="slides"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg><h3>إنشاء شرائح عرض</h3><p>عرض تقديمي مع جداول وأيقونات</p></button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" hidden multiple>
+<input type="file" id="imageInput" hidden accept="image/*" multiple>
+<input type="file" id="cameraInput" hidden accept="image/*" capture="environment">
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ---------- PWA: manifest + SW via Blob ----------
+(function(){
+  try{
+    const starSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="110" fill="#17181c"/><text x="256" y="340" font-size="300" text-anchor="middle" fill="#e8c268">✦</text></svg>`;
+    const manifest = {name:"زرت ZRT", short_name:"زرت", display:"standalone", background_color:"#17181c", theme_color:"#17181c", start_url:"./index.html", icons:[{src:"data:image/svg+xml,"+encodeURIComponent(starSvg), sizes:"512x512", type:"image/svg+xml", purpose:"any maskable"}]};
+    const blob = new Blob([JSON.stringify(manifest)], {type:"application/json"});
+    const link = document.createElement("link"); link.rel="manifest"; link.href=URL.createObjectURL(blob); document.head.appendChild(link);
+    const swCode = `self.addEventListener('install',e=>{e.waitUntil(caches.open('zrt-v2-cache').then(c=>c.addAll(['./index.html'])))}); self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('./index.html'))))});`;
+    const swBlob = new Blob([swCode], {type:"text/javascript"});
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{}); }
+  }catch(e){}
+})();
+
+// ---------- Storage: localStorage + IndexedDB ----------
+const LS_CONV="zrt_conversations_v2", LS_FILES="zrt_files_v2", LS_SETTINGS="zrt_settings_v2";
+let db=null;
+function openDB(){ return new Promise((res,rej)=>{ const req=indexedDB.open("ZRT_DB",1); req.onupgradeneeded=()=>{ if(!req.result.objectStoreNames.contains("files")) req.result.createObjectStore("files",{keyPath:"id"}); }; req.onsuccess=()=>{db=req.result;res(db)}; req.onerror=()=>rej(req.error); }); }
+openDB().catch(()=>{});
+function idbPut(file){ return new Promise((res,rej)=>{ if(!db) return res(); const tx=db.transaction("files","readwrite"); tx.objectStore("files").put(file); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
+function idbGet(id){ return new Promise((res)=>{ if(!db) return res(null); const tx=db.transaction("files","readonly"); const r=tx.objectStore("files").get(id); r.onsuccess=()=>res(r.result||null); r.onerror=()=>res(null); }); }
+function idbAll(){ return new Promise((res)=>{ if(!db) return res([]); const tx=db.transaction("files","readonly"); const r=tx.objectStore("files").getAll(); r.onsuccess=()=>res(r.result||[]); r.onerror=()=>res([]); }); }
+function idbDelete(id){ return new Promise((res)=>{ if(!db) return res(); const tx=db.transaction("files","readwrite"); tx.objectStore("files").delete(id); tx.oncomplete=()=>res(); }); }
+
+// ---------- State ----------
+let conversations=[]; try{ conversations=JSON.parse(localStorage.getItem(LS_CONV)||"[]"); }catch{ conversations=[]; }
+if(!conversations.length){ conversations=[{id:Date.now().toString(), title:"محادثة جديدة", createdAt:Date.now(), messages:[]}]; }
+let currentId=conversations[0].id;
+let pending=[]; // {id,name,size,type,data, kind}
+let settings={theme:"dark", font:"medium", glass:true, save:true, stream:true, sound:false}; try{ Object.assign(settings, JSON.parse(localStorage.getItem(LS_SETTINGS)||"{}")); }catch{}
+let deferredPrompt=null; window.addEventListener("beforeinstallprompt", e=>{ e.preventDefault(); deferredPrompt=e; });
+
+const $=id=>document.getElementById(id);
+const chatScroll=$("chatScroll"), messagesEl=$("messages"), emptyEl=$("emptyState"), input=$("input"), toastEl=$("toast");
+function toast(m){ toastEl.textContent=m; toastEl.classList.add("show"); setTimeout(()=>toastEl.classList.remove("show"),2200); }
+function saveAll(){ if(!settings.save) return; try{ localStorage.setItem(LS_CONV, JSON.stringify(conversations)); }catch(e){ toast("التخزين ممتلئ - تم الحفظ في IndexedDB"); } try{ localStorage.setItem(LS_SETTINGS, JSON.stringify(settings)); }catch{} updateStorageInfo(); }
+function getCurrent(){ return conversations.find(c=>c.id===currentId) || conversations[0]; }
+function applySettings(){ document.documentElement.setAttribute("data-theme", settings.theme==="light"?"light":"dark"); document.querySelector('meta[name="theme-color"]').setAttribute("content", settings.theme==="light"?"#f6f5f2":"#17181c"); const sizes={small:"13px",medium:"15px",large:"17px"}; document.documentElement.style.setProperty("--msg-size", sizes[settings.font]||"15px"); $("themeToggle").classList.toggle("on", settings.theme==="light"); $("glassToggle").classList.toggle("on", settings.glass); $("saveToggle").classList.toggle("on", settings.save); $("streamToggle").classList.toggle("on", settings.stream); $("soundToggle").classList.toggle("on", settings.sound); document.querySelectorAll("[data-font]").forEach(b=>b.classList.toggle("active", b.dataset.font===settings.font)); }
+function updateStorageInfo(){ try{ let s=0; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); s+=(localStorage.getItem(k)||"").length; } const kb=(s/1024).toFixed(1); $("storageInfo").textContent=`المستخدم في localStorage: ${kb} KB • عدد المحادثات: ${conversations.length} • عدد المرفقات المعلقة: ${pending.length}`; }catch{} }
+
+// ---------- Render ----------
+function esc(s){ return String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function renderConvList(){ const q=($("searchConv").value||"").toLowerCase(); const list=$("convList"); list.innerHTML=""; conversations.filter(c=>!q||c.title.toLowerCase().includes(q)).forEach(c=>{ const div=document.createElement("div"); div.className="conv-item"+(c.id===currentId?" active":""); div.innerHTML=`<div class="t"><b>${esc(c.title)}</b><span>${c.messages.length} رسالة • ${new Date(c.createdAt).toLocaleDateString("ar-SA")}</span></div><div class="dots-menu"><button class="icon-btn" style="width:36px;height:36px" data-dots="${c.id}"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></svg></button><div class="dots-panel" id="panel-${c.id}"><button data-rename="${c.id}">إعادة تسمية</button><button class="danger" data-del="${c.id}">حذف الدردشة</button></div></div>`; div.addEventListener("click",e=>{ if(e.target.closest("[data-dots]")){ const p=div.querySelector(".dots-panel"); document.querySelectorAll(".dots-panel").forEach(x=>{ if(x!==p) x.classList.remove("show"); }); p.classList.toggle("show"); return; } if(e.target.closest("[data-rename]")){ const nv=prompt("اسم جديد للمحادثة:", c.title); if(nv){ c.title=nv.trim()||c.title; saveAll(); renderConvList(); renderMessages(); } return; } if(e.target.closest("[data-del]")){ if(confirm("حذف هذه الدردشة؟")){ conversations=conversations.filter(x=>x.id!==c.id); if(!conversations.length) conversations=[{id:Date.now().toString(),title:"محادثة جديدة",createdAt:Date.now(),messages:[]}]; currentId=conversations[0].id; saveAll(); renderConvList(); renderMessages(); toast("تم حذف الدردشة"); } return; } currentId=c.id; saveAll(); renderConvList(); renderMessages(); closeSidebar(); }); list.appendChild(div); }); }
+function renderPending(){ const el=$("pendingFiles"); el.innerHTML=""; pending.forEach((f,i)=>{ const div=document.createElement("div"); div.className="file-item"; const isImg=f.type.startsWith("image/"); div.innerHTML=`${isImg?`<img src="${f.data}">`:`<div style="width:48px;height:48px;border-radius:8px;background:var(--card2);display:grid;place-items:center">📄</div>`}<div class="meta"><b>${esc(f.name)}</b><span>${(f.size/1024).toFixed(1)} KB • ${f.type||"ملف"}</span></div><button class="icon-btn" data-rm="${i}" style="width:36px;height:36px">✕</button>`; div.querySelector("[data-rm]").onclick=()=>{ pending.splice(i,1); renderPending(); updateStorageInfo(); }; el.appendChild(div); }); }
+function renderMessages(){ const cur=getCurrent(); emptyEl.style.display=cur.messages.length?"none":"block"; messagesEl.innerHTML=""; cur.messages.forEach(m=>{ if(m.role==="user"){ const d=document.createElement("div"); d.className="msg-user"; let att=""; if(m.attachments?.length){ att=`<div class="attach-row">${m.attachments.map(a=> a.type?.startsWith("image/")?`<img class="attach-img" src="${a.data}" alt="${esc(a.name)}" onclick="window.open('${a.data}','_blank')">`:`<div class="file-chip" onclick="downloadStored('${a.id}')"><span>${esc(a.name)}</span></div>`).join("")}</div>`; } d.innerHTML=att+`<div class="bubble">${esc(m.text)}</div>`; messagesEl.appendChild(d); } else { const d=document.createElement("div"); d.className="msg-ai"; d.innerHTML=`<div class="ai-mark"><span>✦</span></div><div class="ai-content">${m.html||`<p>${esc(m.text)}</p>`}</div>`; messagesEl.appendChild(d); } }); requestAnimationFrame(()=>chatScroll.scrollTo({top:chatScroll.scrollHeight})); }
+window.downloadStored=async(id)=>{ let f=pending.find(x=>x.id===id); if(!f){ try{ const arr=JSON.parse(localStorage.getItem(LS_FILES)||"[]"); f=arr.find(x=>x.id===id); }catch{} } if(!f) f=await idbGet(id); if(!f) return toast("الملف غير موجود"); const a=document.createElement("a"); a.href=f.data; a.download=f.name; a.click(); toast("بدأ تحميل "+f.name); };
+
+// ---------- File handling - REAL ----------
+function readFile(file){ return new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=()=>reject(r.error); r.readAsDataURL(file); }); }
+async function handleFiles(fileList){ const files=Array.from(fileList||[]); if(!files.length) return; $("uploadProgressWrap").style.display="block"; let done=0; for(const file of files){ if(file.size>10*1024*1024){ toast(`الملف ${file.name} أكبر من 10MB`); continue; } $("uploadProgress").style.width=`${Math.round(done/files.length*100)}%`; const data=await readFile(file); const item={id:Date.now().toString()+"-"+Math.random().toString(36).slice(2), name:file.name, size:file.size, type:file.type, data, kind:file.type.startsWith("image/")?"image":"file", at:Date.now()}; pending.push(item); // تخزين فعلي
+      try{ if(file.size<2*1024*1024){ const arr=JSON.parse(localStorage.getItem(LS_FILES)||"[]"); arr.push(item); localStorage.setItem(LS_FILES, JSON.stringify(arr)); } else { await idbPut(item); } }catch(e){ await idbPut(item); } done++; $("uploadProgress").style.width=`${Math.round(done/files.length*100)}%`; } setTimeout(()=>$("uploadProgressWrap").style.display="none",600); renderPending(); updateStorageInfo(); toast(`تم رفع ${files.length} ملف بنجاح`); openPlus(); }
+$("fileInput").addEventListener("change",e=>{ handleFiles(e.target.files); e.target.value=""; });
+$("imageInput").addEventListener("change",e=>{ handleFiles(e.target.files); e.target.value=""; });
+$("cameraInput").addEventListener("change",e=>{ handleFiles(e.target.files); e.target.value=""; });
+
+// ---------- Sheets ----------
+function openSettings(){ $("settingsSheet").classList.add("show"); $("settingsOverlay").classList.add("show"); } function closeSettings(){ $("settingsSheet").classList.remove("show"); $("settingsOverlay").classList.remove("show"); }
+function openPlus(){ $("plusSheet").classList.add("show"); $("plusOverlay").classList.add("show"); } function closePlus(){ $("plusSheet").classList.remove("show"); $("plusOverlay").classList.remove("show"); }
+function openSidebar(){ $("sidebar").classList.add("show"); $("sidebarOverlay").classList.add("show"); } function closeSidebar(){ $("sidebar").classList.remove("show"); $("sidebarOverlay").classList.remove("show"); }
+$("settingsBtn").onclick=openSettings; $("closeSettings").onclick=closeSettings; $("settingsOverlay").onclick=closeSettings;
+$("plusBtn").onclick=()=>{ renderPending(); openPlus(); }; $("closePlus").onclick=closePlus; $("plusOverlay").onclick=closePlus;
+$("menuBtn").onclick=openSidebar; $("closeSidebar").onclick=closeSidebar; $("sidebarOverlay").onclick=closeSidebar;
+$("uploadImageBtn").onclick=()=>$("imageInput").click(); $("uploadFileBtn").onclick=()=>$("fileInput").click(); $("cameraBtn").onclick=()=>$("cameraInput").click(); $("attachBtn").onclick=()=>$("fileInput").click();
+$("clearAttachBtn").onclick=()=>{ pending=[]; renderPending(); toast("تم مسح المرفقات"); };
+$("sendWithFilesBtn").onclick=()=>{ const txt=$("plusMessage").value.trim(); closePlus(); send(txt||"هذه ملفاتي، اشرحها لي"); $("plusMessage").value=""; };
+$("searchConv").addEventListener("input",renderConvList);
+
+// ---------- Settings actions ----------
+$("themeToggle").onclick=()=>{ settings.theme=settings.theme==="light"?"dark":"light"; applySettings(); saveAll(); };
+$("glassToggle").onclick=()=>{ settings.glass=!settings.glass; document.body.style.setProperty("--glass", settings.glass?"1":"0"); $("glassToggle").classList.toggle("on", settings.glass); saveAll(); };
+$("saveToggle").onclick=()=>{ settings.save=!settings.save; applySettings(); saveAll(); toast(settings.save?"تم تفعيل الحفظ":"تم إيقاف الحفظ"); };
+$("streamToggle").onclick=()=>{ settings.stream=!settings.stream; applySettings(); saveAll(); };
+$("soundToggle").onclick=()=>{ settings.sound=!settings.sound; applySettings(); saveAll(); };
+document.querySelectorAll("[data-font]").forEach(b=>b.onclick=()=>{ settings.font=b.dataset.font; applySettings(); saveAll(); });
+$("exportBtn").onclick=()=>{ const blob=new Blob([JSON.stringify(conversations,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="zrt-conversations.json"; a.click(); };
+$("clearFilesBtn").onclick=async()=>{ if(!confirm("مسح كل الملفات المحفوظة؟")) return; localStorage.removeItem(LS_FILES); if(db){ const tx=db.transaction("files","readwrite"); tx.objectStore("files").clear(); } pending=[]; renderPending(); toast("تم مسح الملفات"); };
+$("installBtn").onclick=async()=>{ if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; } else toast("في الآيفون: مشاركة > إضافة إلى الشاشة الرئيسية"); };
+$("saveAi").onclick=()=>{ localStorage.setItem("zrt_ai", JSON.stringify({name:$("aiName").value, style:$("aiStyle").value, lang:$("aiLang").value})); toast("تم حفظ تخصيص الذكاء الاصطناعي"); closeSidebar(); };
+
+// ---------- New chat ----------
+function newChat(){ const c={id:Date.now().toString(), title:"محادثة جديدة", createdAt:Date.now(), messages:[]}; conversations.unshift(c); currentId=c.id; pending=[]; input.value=""; saveAll(); renderConvList(); renderMessages(); closeSidebar(); toast("محادثة جديدة"); }
+$("newChatBtn").onclick=newChat; $("newChatSidebar").onclick=newChat;
+
+// ---------- Build simulation ----------
+function buildSteps(type){ if(type==="slides") return ["تخطيط الشرائح","كتابة المحتوى","تصميم الغلاف","إضافة الجداول والأيقونات","تجهيز العرض"]; if(type==="files") return ["تحليل المطلوب","إنشاء الملفات","كتابة الكود","اختبار الملفات","تجهيز التحميل"]; return ["البدء بإنشاء مشروع تصميم الصفحات","بناء الهيكل والتنقل","إضافة الألوان والخطوط","إضافة الأقسام والمحتوى","مراجعة نهائية وتسليم"]; }
+function showBuild(type){ const steps=buildSteps(type); const cur=getCurrent(); const html=`<div class="build"><div class="build-head"><span>${type==="website"?"إنشاء موقع إلكتروني":type==="slides"?"إنشاء شرائح عرض":"إنشاء ملفات"}</span><span>0%</span></div><div class="build-progress"><i id="bpBar"></i></div>${steps.map((s,i)=>`<div class="build-row"><span class="build-num">0${i+1}</span><span>${s}</span><span class="build-status" id="bs-${i}"><span class="spinner"></span> جاري...</span></div>`).join("")}<div class="build-done" id="buildDone" style="display:none">✓ اكتمل البناء بنجاح</div><div class="mini-preview"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><div class="mini-body"><h3>${type==="website"?"موقعك جاهز ✦":"عرضك جاهز ✦"}</h3><p>معاينة سريعة - اضغط تحميل للحصول على الملف الكامل</p><button class="btn-primary" style="width:auto;padding:9px 16px" onclick="alert('هذه معاينة تجريبية - في Vercel سيتم توليد الملف الحقيقي عبر /api/chat')">تحميل الملف</button></div></div></div>`; cur.messages.push({role:"assistant", text:"build", html}); renderMessages(); let idx=0; const timer=setInterval(()=>{ if(idx>=steps.length){ clearInterval(timer); const done=document.getElementById("buildDone"); if(done) done.style.display="flex"; const bar=document.getElementById("bpBar"); if(bar) bar.style.width="100%"; const head=document.querySelector(".build-head span:last-child"); if(head) head.textContent="100%"; if(settings.sound){ try{ new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=").play().catch(()=>{}); }catch{} } return; } const el=document.getElementById(`bs-${idx}`); if(el) el.innerHTML=`<span class="dot-ok">✓</span> تم`; const bar=document.getElementById("bpBar"); if(bar) bar.style.width=`${Math.round((idx+1)/steps.length*100)}%`; const head=document.querySelector(".build-head span:last-child"); if(head) head.textContent=`${Math.round((idx+1)/steps.length*100)}%`; idx++; },900); }
+document.querySelectorAll("[data-build]").forEach(b=>b.onclick=()=>{ const t=b.dataset.build; closePlus(); const cur=getCurrent(); cur.messages.push({role:"user", text: t==="website"?"ابنِ لي موقع إلكتروني":t==="slides"?"سوي لي شرائح عرض":"انشئ لي ملفات"}); if(cur.title==="محادثة جديدة") cur.title=cur.messages[0].text.slice(0,28); saveAll(); renderMessages(); setTimeout(()=>showBuild(t),400); });
+
+// ---------- Send ----------
+async function send(preset){ const text=(preset ?? input.value).trim(); if(!text && !pending.length) return; const cur=getCurrent(); const atts=[...pending]; pending=[]; renderPending(); cur.messages.push({role:"user", text:text||"هذه ملفاتي", attachments:atts.map(a=>({id:a.id,name:a.name,size:a.size,type:a.type,data:a.data}))}); if(cur.title==="محادثة جديدة" && text) cur.title=text.slice(0,28); input.value=""; input.style.height="auto"; saveAll(); renderMessages(); const aiMsg={role:"assistant", text:"", html:""}; cur.messages.push(aiMsg); renderMessages();
+  // Try real /api/chat
+  try{ const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:cur.messages.slice(-12).map(m=>({role:m.role, content:m.text}))})}); if(res.ok){ const reader=res.body.getReader(); const dec=new TextDecoder(); let buf="", ans=""; while(true){ const {done,value}=await reader.read(); if(done) break; buf+=dec.decode(value,{stream:true}); const lines=buf.split("\\n"); buf=lines.pop()||""; for(const line of lines){ if(!line.startsWith("data: ")) continue; const d=line.slice(6).trim(); if(d==="[DONE]") continue; try{ const delta=JSON.parse(d).choices?.[0]?.delta?.content; if(delta){ ans+=delta; aiMsg.text=ans; aiMsg.html=`<p>${esc(ans)}</p>`; renderMessages(); } }catch{} } } if(ans){ saveAll(); renderMessages(); return; } } }catch{}
+  // Fallback demo
+  let demo=""; if(text.includes("موقع")){ showBuild("website"); cur.messages.pop(); saveAll(); return; } if(text.includes("شرائح")||text.includes("عرض")){ showBuild("slides"); cur.messages.pop(); saveAll(); return; } if(atts.length) demo=`استلمت ${atts.length} ملف حقيقي من جهازك: ${atts.map(a=>a.name).join("، ")}. تم حفظها في جهازك في localStorage / IndexedDB، وتقدر تحملها في أي وقت بالضغط عليها. تبي أشرح لك محتواها أو أبني لك منها موقع أو عرض؟`; else demo=`تمام، فهمت عليك: "${text}". أنا زرت V2.0، أقدر أبني لك موقع أو شرائح أو ملفات، وأقدر أقرأ ملفاتك اللي ترفعها من زر +. جرّب ترفع ملف أو اضغط زر + واختر إنشاء موقع.`;
+  // typewriter
+  let i=0; const iv=setInterval(()=>{ i+=3; aiMsg.text=demo.slice(0,i); aiMsg.html=`<p>${esc(aiMsg.text)}</p>`; renderMessages(); if(i>=demo.length){ clearInterval(iv); saveAll(); } },18);
+}
+$("sendBtn").onclick=()=>send(); input.addEventListener("keydown",e=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); send(); } }); input.addEventListener("input",()=>{ input.style.height="auto"; input.style.height=Math.min(input.scrollHeight,120)+"px"; });
+document.querySelectorAll("[data-suggest]").forEach(b=>b.onclick=()=>send(b.dataset.suggest));
+chatScroll.addEventListener("scroll",()=>{ const show=chatScroll.scrollHeight - chatScroll.scrollTop - chatScroll.clientHeight > 300; $("scrollDownBtn").classList.toggle("show", show); });
+$("scrollDownBtn").onclick=()=>chatScroll.scrollTo({top:chatScroll.scrollHeight, behavior:"smooth"});
+window.addEventListener("online",()=>{ $("netDot").classList.remove("off"); }); window.addEventListener("offline",()=>{ $("netDot").classList.add("off"); toast("أنت الآن أوفلاين - محادثاتك المحفوظة ما زالت موجودة"); });
+if(!navigator.onLine) $("netDot").classList.add("off");
+
+// Init
+applySettings(); renderConvList(); renderMessages(); updateStorageInfo();
+setTimeout(updateStorageInfo,800);
+</script>
+</body>
+</html>
